@@ -3,6 +3,7 @@ package com.zachary.reddit.ui.Main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,9 +44,22 @@ public class MainFragment extends BaseFragment implements MainContract.View,Topi
         swipeRefreshLayout = getViewByView(rootView,R.id.swipeRefreshLayout);
         rvTopic = getViewByView(rootView,R.id.rvTopic);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getTopicList(true);
+            }
+        });
+
+        //setup layout manager for recyclerview
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvTopic.setLayoutManager(linearLayoutManager);
 
+        //add divider for recyclerview
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation());
+        rvTopic.addItemDecoration(dividerItemDecoration);
+
+        //set adapter for recycler view and onClickListener
         adapter = new TopicAdapter(mPresenter.getCurrentTopicList());
         adapter.setOnClickListener(this);
         rvTopic.setAdapter(adapter);
@@ -71,6 +85,7 @@ public class MainFragment extends BaseFragment implements MainContract.View,Topi
 
     @Override
     public void notifyTopicListUpdate() {
+        swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
     }
 

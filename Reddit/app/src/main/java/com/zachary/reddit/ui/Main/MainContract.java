@@ -18,6 +18,7 @@ public class MainContract {
 
     interface Presenter extends BasePresenter {
         List<Topic> getCurrentTopicList();
+        void getTopicList(boolean forceRefresh);
         void upVote(int topicId);
         void downVote(int topicId);
     }
