@@ -7,6 +7,8 @@ import com.zachary.reddit.service.model.UpVoteResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -19,12 +21,15 @@ public interface RedditService {
     @GET("/getTopicList.php")
     Call<GetTopicListResponse> getTopicList(@Query("limit") int limit, @Query("offset") int offset);
 
+    @FormUrlEncoded
     @POST("/createTopic.php")
-    Call<CreateTopicResponse> createTopic(@Body String topicTitle);
+    Call<CreateTopicResponse> createTopic(@Field("topicTitle") String topicTitle);
 
+    @FormUrlEncoded
     @POST("/upVote.php")
-    Call<UpVoteResponse> upVote(@Body int topicId);
+    Call<UpVoteResponse> upVote(@Field("topicId") int topicId);
 
+    @FormUrlEncoded
     @POST("/downVote.php")
-    Call<DownVoteResponse> downVote(@Body int topicId);
+    Call<DownVoteResponse> downVote(@Field("topicId") int topicId);
 }

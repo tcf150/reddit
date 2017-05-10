@@ -8,19 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.zachary.reddit.R;
 import com.zachary.reddit.base.BaseFragment;
+import com.zachary.reddit.model.Topic;
 
 /**
  * Created by user on 10/5/2017.
  */
 
-public class MainFragment extends BaseFragment implements MainContract.View{
+public class MainFragment extends BaseFragment implements MainContract.View,TopicAdapter.OnClickListener{
     private MainContract.Presenter mPresenter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView rvTopic;
+    private TopicAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +46,10 @@ public class MainFragment extends BaseFragment implements MainContract.View{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvTopic.setLayoutManager(linearLayoutManager);
 
+        adapter = new TopicAdapter(mPresenter.getCurrentTopicList());
+        adapter.setOnClickListener(this);
+        rvTopic.setAdapter(adapter);
+
         return rootView;
     }
 
@@ -50,5 +57,25 @@ public class MainFragment extends BaseFragment implements MainContract.View{
     public void onResume() {
         super.onResume();
         mPresenter.start();
+    }
+
+    @Override
+    public void onUpClick(int topicId) {
+        mPresenter.upVote(topicId);
+    }
+
+    @Override
+    public void onDownClick(int topicId) {
+        mPresenter.downVote(topicId);
+    }
+
+    @Override
+    public void notifyTopicListUpdate() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showErrorToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

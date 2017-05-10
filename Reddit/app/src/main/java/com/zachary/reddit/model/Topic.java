@@ -43,4 +43,8 @@ public class Topic extends BaseModel {
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
+
+    public boolean equalId(int id){
+        return (this.id == id);
+    }
 }
