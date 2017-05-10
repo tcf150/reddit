@@ -25,7 +25,6 @@ public class MainPresenter implements MainContract.Presenter {
     private final static String TAG = "MainPresenter";
 
     private final MainContract.View mView;
-    private RedditService service;
 
     public MainPresenter(@NonNull MainContract.View view){
         mView = view;
@@ -34,10 +33,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        if (service == null){
-            service = BaseApiClient.getTopicService();
-        }
-
         getTopicList(true);
     }
 
@@ -52,7 +47,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (topicId < 0) return;
         Log.d(TAG,"Begin up vote");
         //fire up vote service
-        Call<UpVoteResponse> call = service.upVote(topicId);
+        Call<UpVoteResponse> call = BaseApiClient.getTopicService().upVote(topicId);
         call.enqueue(new Callback<UpVoteResponse>() {
             @Override
             public void onResponse(Call<UpVoteResponse> call, Response<UpVoteResponse> response) {
@@ -87,7 +82,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (topicId < 0) return;
         Log.d(TAG,"begin down vote");
         //fire down vote service
-        Call<DownVoteResponse> call = service.downVote(topicId);
+        Call<DownVoteResponse> call = BaseApiClient.getTopicService().downVote(topicId);
         call.enqueue(new Callback<DownVoteResponse>() {
             @Override
             public void onResponse(Call<DownVoteResponse> call, Response<DownVoteResponse> response) {
@@ -126,7 +121,7 @@ public class MainPresenter implements MainContract.Presenter {
         }
         Log.d(TAG,"begin get topic list");
         //fire getTopicList
-        Call<GetTopicListResponse> call = service.getTopicList(20,0);
+        Call<GetTopicListResponse> call = BaseApiClient.getTopicService().getTopicList(20,0);
         call.enqueue(new Callback<GetTopicListResponse>() {
             @Override
             public void onResponse(Call<GetTopicListResponse> call, Response<GetTopicListResponse> response) {

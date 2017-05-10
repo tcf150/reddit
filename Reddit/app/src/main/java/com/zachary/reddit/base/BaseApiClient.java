@@ -10,14 +10,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class BaseApiClient {
+    private static  RedditService service;
 
     public static RedditService getTopicService(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://zacharytongreddit.000webhostapp.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        if (service == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://zacharytongreddit.000webhostapp.com")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        RedditService service = retrofit.create(RedditService.class);
+            service = retrofit.create(RedditService.class);
+        }
         return service;
     }
 }

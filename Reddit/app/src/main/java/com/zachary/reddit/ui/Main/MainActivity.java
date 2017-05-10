@@ -1,5 +1,6 @@
 package com.zachary.reddit.ui.Main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 
 import com.zachary.reddit.R;
 import com.zachary.reddit.base.BaseAppCompatActivity;
+import com.zachary.reddit.ui.AddTopic.AddTopicActivity;
 
 public class MainActivity extends BaseAppCompatActivity {
 
@@ -33,8 +35,8 @@ public class MainActivity extends BaseAppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, AddTopicActivity.class);
+               startActivity(intent);
             }
         });
 
