@@ -2,6 +2,7 @@ package com.zachary.reddit.base;
 
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -11,6 +12,20 @@ import android.view.inputmethod.InputMethodManager;
  */
 
 public class BaseFragment extends Fragment {
+    /**
+     * get view from view by using id
+     * @param view rootView
+     * @param resId view id
+     * @param <T> view class
+     * @return T type View
+     */
+    protected <T extends View> T getViewByView(View view, @IdRes int resId){
+        return (T) view.findViewById(resId);
+    }
+
+    /**
+     * hide the Keyboard from any focus
+     */
     protected void hideKeyboard(){
         View view = getActivity().getCurrentFocus();
         if (view != null) {
